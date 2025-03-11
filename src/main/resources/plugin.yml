@@ -1,0 +1,6 @@
+name: BlissTryout
+version: ${version}
+api-version: '1.21'
+main: com.imabanana80.blisstryout.BlissTryout
+author: Imabanana80
+website: https://imabanana80.com/
