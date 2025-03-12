@@ -8,7 +8,11 @@ import com.imabanana80.potassium.particle.DustParticle;
 import com.imabanana80.potassium.particle.shape.ParticleCircle;
 import com.imabanana80.potassium.particle.shape.ParticleLine;
 import com.imabanana80.potassium.util.Random;
+import com.imabanana80.potassium.util.SmallCaps;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -19,12 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.RayTraceResult;
-import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
-import org.joml.AxisAngle4f;
-import org.joml.Vector3f;
 
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SpidermanGem extends CustomItem {
@@ -34,7 +34,29 @@ public class SpidermanGem extends CustomItem {
 
     @Override
     protected ItemStack createItem() {
-        ItemStack item = new ItemStackBuilder(Material.AMETHYST_SHARD).setDisplayName(Component.text("Spiderman Gem")).setCustomModelData(80).build();
+        ItemStack item = new ItemStackBuilder(Material.AMETHYST_SHARD)
+                .setDisplayName(Component.text(SmallCaps.convert("SPIDER"), TextColor.color(0xE72020)).decorate(TextDecoration.BOLD)
+                        .append(Component.text(SmallCaps.convert("MAN"), TextColor.color(0x5F65FF)).decorate(TextDecoration.BOLD))
+                        .append(Component.text(SmallCaps.convert(" GEM"), NamedTextColor.WHITE).decoration(TextDecoration.BOLD, false)))
+                .addLore(Component.text(SmallCaps.convert("Lets Get Sticky"), NamedTextColor.WHITE).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false))
+                .addLore(Component.text(""))
+                .addLore(Component.text(SmallCaps.convert("Passives"), TextColor.color(0xFFA2A8)).decoration(TextDecoration.ITALIC, false))
+                .addLore(Component.text(" - Immune to fall damage", NamedTextColor.WHITE))
+                .addLore(Component.text(" - Spiders will not attack", NamedTextColor.WHITE))
+                .addLore(Component.text(""))
+                .addLore(Component.text(SmallCaps.convert("Powers"), TextColor.color(0x8AA3FF)).decoration(TextDecoration.ITALIC, false))
+                .addLore(Component.text(SmallCaps.convert("PRIMARY FIRE"), TextColor.color(0xF8FFC8)))
+                .addLore(Component.text(" - Launch a barrage of webs in the direction you're facing", NamedTextColor.WHITE))
+                .addLore(Component.text(SmallCaps.convert("SECONDARY FIRE"), TextColor.color(0xF8FFC8)))
+                .addLore(Component.text(" - Grapple onto a block. Ground pound to launch webs in all directions around you,", NamedTextColor.WHITE))
+                .addLore(Component.text("   and spawn 4 baby spiders to fight alongside you", NamedTextColor.WHITE))
+                .addLore(Component.text(SmallCaps.convert("CROUCH + SECONDARY FIRE"), TextColor.color(0xF8FFC8)))
+                .addLore(Component.text(" - Grab a block or entity and pull it towards you", NamedTextColor.WHITE))
+                .addLore(Component.text(SmallCaps.convert("WEBS"), TextColor.color(0xF8FFC8)))
+                .addLore(Component.text(" - Webs come in the form of a projectile,", NamedTextColor.WHITE))
+                .addLore(Component.text("   and bounce before landing as a cobweb.", NamedTextColor.WHITE))
+                .addLore(Component.text("   If a web hits an entity, it slows the entity down for a short period of time.", NamedTextColor.WHITE))
+                .build();
         ItemMeta meta = item.getItemMeta();
         meta.setItemModel(new NamespacedKey("bliss", "spiderman_gem"));
         item.setItemMeta(meta);
