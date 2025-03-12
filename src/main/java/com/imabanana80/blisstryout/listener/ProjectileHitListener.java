@@ -2,6 +2,7 @@ package com.imabanana80.blisstryout.listener;
 
 import com.imabanana80.blisstryout.BlissTryout;
 import com.imabanana80.blisstryout.item.SpidermanGem;
+import com.imabanana80.blisstryout.manager.GooBallManager;
 import com.imabanana80.potassium.item.ItemRegistry;
 import com.imabanana80.potassium.util.Random;
 import org.bukkit.Bukkit;
@@ -43,8 +44,7 @@ public class ProjectileHitListener implements Listener {
                         case EAST, WEST -> velocity.setX(-velocity.getX());
                         case UP, DOWN -> velocity.setY(-velocity.getY());
                     }
-                    Snowball newball = snowball.getWorld().spawn(snowball.getLocation(), Snowball.class);
-                    newball.setCustomName("gooball");
+                    Snowball newball = GooBallManager.spawnGooball(snowball.getLocation());
                     newball.setVelocity(velocity.multiply(0.9));
                     return;
                 }
@@ -55,7 +55,7 @@ public class ProjectileHitListener implements Listener {
                         SpidermanGem gem = (SpidermanGem) ItemRegistry.get(SpidermanGem.class);
                         if (gem.is(player.getInventory().getItemInMainHand()) || gem.is(player.getInventory().getItemInOffHand())) return;
                     }
-                    setCobweb(hitEntity.getLocation(), 20*5, 20*10);
+                    GooBallManager.cobweb(hitEntity);
                 }
             }
         }
@@ -63,6 +63,7 @@ public class ProjectileHitListener implements Listener {
 
     private static void setCobweb(Location location, int minTime, int maxTime) {
         if (!location.getBlock().isReplaceable()) return;
+        if (location.getBlock().getType().equals(Material.WATER)) return;
         location.getBlock().setType(Material.COBWEB);
         Bukkit.getScheduler().runTaskLater(BlissTryout.getInstance(), () -> {
             if (location.getBlock().getType().equals(Material.AIR)) return;
