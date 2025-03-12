@@ -49,7 +49,7 @@ public class GooBallManager {
         }, duration);
         entity.addPassenger(display);
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.addPotionEffect(PotionEffectType.SLOWNESS.createEffect(duration, 3));
+            livingEntity.addPotionEffect(PotionEffectType.SLOWNESS.createEffect(duration, 4));
         }
     }
 }
