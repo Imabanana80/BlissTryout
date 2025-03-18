@@ -5,8 +5,8 @@ import com.imabanana80.blisstryout.manager.GooBallManager;
 import com.imabanana80.potassium.item.CustomItem;
 import com.imabanana80.potassium.item.ItemStackBuilder;
 import com.imabanana80.potassium.particle.DustParticle;
-import com.imabanana80.potassium.particle.shape.ParticleCircle;
-import com.imabanana80.potassium.particle.shape.ParticleLine;
+import com.imabanana80.potassium.shape.CircleShape;
+import com.imabanana80.potassium.shape.LineShape;
 import com.imabanana80.potassium.util.Random;
 import com.imabanana80.potassium.util.SmallCaps;
 import net.kyori.adventure.text.Component;
@@ -97,8 +97,8 @@ public class SpidermanGem extends CustomItem {
             if (rayTraceResult == null) return;
             if (rayTraceResult.getHitBlock() != null) {
                 Block block = rayTraceResult.getHitBlock();
-                ParticleLine line = new ParticleLine(player.getEyeLocation().toVector(), block.getLocation().add(0.5, 0.5, 0.5).toVector(),2);
-                line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, 1), true);
+                LineShape line = new LineShape(player.getEyeLocation().toVector(), block.getLocation().add(0.5, 0.5, 0.5).toVector(),2);
+                line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, true));
                 BlockData data = block.getBlockData();
                 block.setType(Material.AIR);
                 Vector dir = player.getEyeLocation().toVector().subtract(block.getLocation().add(new Vector(0.5, 0, 0.5)).toVector()).normalize();
@@ -116,8 +116,8 @@ public class SpidermanGem extends CustomItem {
                 if (entity instanceof LivingEntity livingEntity) {
                     livingEntity.damage(0, player);
                 }
-                ParticleLine line = new ParticleLine(entity.getLocation().add(0, 0.5, 0).toVector(), player.getEyeLocation().toVector(),2);
-                line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, 1), true);
+                LineShape line = new LineShape(entity.getLocation().add(0, 0.5, 0).toVector(), player.getEyeLocation().toVector(),2);
+                line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, true));
                 Vector dir = player.getEyeLocation().toVector().subtract(entity.getLocation().add(0, 0.5, 0).toVector()).normalize();
                 double strength = entity.getLocation().distance(player.getLocation())/4;
                 entity.setVelocity(dir.multiply(strength));
@@ -131,8 +131,8 @@ public class SpidermanGem extends CustomItem {
         RayTraceResult rayTraceResult = player.rayTraceBlocks(256, FluidCollisionMode.NEVER);
         if (rayTraceResult == null) return;
         Block block = rayTraceResult.getHitBlock();
-        ParticleLine line = new ParticleLine(player.getEyeLocation().toVector(), block.getLocation().add(0.5, 0.5, 0.5).toVector(),2);
-        line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, 1), true);
+        LineShape line = new LineShape(player.getEyeLocation().toVector(), block.getLocation().add(0.5, 0.5, 0.5).toVector(),2);
+        line.render(player.getWorld(), new DustParticle(Color.WHITE, 1, true));
         Vector dir = block.getLocation().add(0.5 ,0.5, 0.5).toVector().subtract(player.getEyeLocation().toVector()).normalize();
         double strength = player.getEyeLocation().distance(block.getLocation())/2;
         if (!player.getLocation().subtract(new Vector(0, 0.5, 0)).getBlock().getType().equals(Material.AIR)) {
@@ -154,8 +154,8 @@ public class SpidermanGem extends CustomItem {
                     final int finalI = i;
                     Location playerLoc = player.getLocation().add(0, 0.1, 0);
                     Bukkit.getScheduler().runTaskLater(BlissTryout.getInstance(), () -> {
-                        ParticleCircle circle = new ParticleCircle(playerLoc.toVector(),6,  finalI + 1);
-                        for (Vector vec : circle.points) {
+                        CircleShape circle = new CircleShape(playerLoc.toVector(),6,  finalI + 1);
+                        for (Vector vec : circle.getPoints()) {
                             Location location = vec.toLocation(player.getWorld()).add(0, 1, 0);
                             location.getWorld().playSound(location, Sound.BLOCK_COBWEB_BREAK, 0.25f, 1.0f);
                             Snowball snowball = GooBallManager.spawnGooball(location);
@@ -166,14 +166,14 @@ public class SpidermanGem extends CustomItem {
                             velocity.setZ(velocity.getZ() + Math.random()/10);
                             snowball.setVelocity(velocity);
                         }
-                        player.getWorld().spawn(Random.from(circle.points).toLocation(player.getWorld()), Spider.class, entity -> {
+                        player.getWorld().spawn(Random.from(circle.getPoints()).toLocation(player.getWorld()), Spider.class, entity -> {
                             entity.getAttribute(Attribute.SCALE).setBaseValue(0.5);
                             Bukkit.getScheduler().runTaskLater(BlissTryout.getInstance(), () -> {
                                 GooBallManager.spawnGooball(entity);
                                 entity.remove();
                             }, Random.between(20*15, 20*20));
                         });
-                        circle.render(player.getWorld(), new DustParticle(Color.WHITE, 2, 1));
+                        circle.render(player.getWorld(), new DustParticle(Color.WHITE, 1));
                     }, finalI);
                 }
                 task.cancel();
