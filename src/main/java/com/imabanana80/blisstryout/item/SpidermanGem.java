@@ -75,9 +75,9 @@ public class SpidermanGem extends CustomItem {
                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FOX_SPIT, 0.75f, 2.0f);
                     Snowball snowball = GooBallManager.spawnGooball(player);
                     Vector velocity = player.getEyeLocation().getDirection();
-                    velocity.setX(velocity.getX() + Math.random()/10);
-                    velocity.setY(velocity.getY() + Math.random()/10);
-                    velocity.setZ(velocity.getZ() + Math.random()/10);
+                    velocity.setX(velocity.getX() + (Math.random()-0.5)/5);
+                    velocity.setY(velocity.getY() + (Math.random()-0.5)/5);
+                    velocity.setZ(velocity.getZ() + (Math.random()-0.5)/5);
                     snowball.setVelocity(velocity);
                 }
             }, delay);
@@ -170,7 +170,7 @@ public class SpidermanGem extends CustomItem {
                             entity.getAttribute(Attribute.SCALE).setBaseValue(0.5);
                             Bukkit.getScheduler().runTaskLater(BlissTryout.getInstance(), () -> {
                                 GooBallManager.spawnGooball(entity);
-                                entity.damage(255);
+                                entity.remove();
                             }, Random.between(20*15, 20*20));
                         });
                         circle.render(player.getWorld(), new DustParticle(Color.WHITE, 2, 1));
