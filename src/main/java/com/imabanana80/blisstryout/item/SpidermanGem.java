@@ -58,7 +58,6 @@ public class SpidermanGem extends CustomItem {
                 .addLore(Component.text("   If a web hits an entity, it slows the entity down for a short period of time.", NamedTextColor.WHITE))
                 .build();
         ItemMeta meta = item.getItemMeta();
-        meta.setItemModel(new NamespacedKey("bliss", "spiderman_gem"));
         item.setItemMeta(meta);
         return item;
     }
